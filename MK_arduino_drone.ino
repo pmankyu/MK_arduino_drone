@@ -6,6 +6,11 @@ byte ibus_rx_data[32] = {};
 int cnt = 0;
 bool ibus_rx_cplt_flag = false;
 
+int motorPin_1 = 3;
+int motorPin_2 = 5;
+int motorPin_3 = 6;
+int motorPin_4 = 9;
+
 typedef struct _FSiA6B_iBus
 {
 	unsigned short RH; //Right Horizontal
@@ -30,6 +35,29 @@ void setup() {
   // reserve 200 bytes for the inputString:
   inputString.reserve(200);
   Serial.println("Start program");
+  pinMode(motorPin_1, OUTPUT);
+  pinMode(motorPin_2, OUTPUT);
+  pinMode(motorPin_3, OUTPUT);
+  pinMode(motorPin_4, OUTPUT);
+
+  delay(3000);
+
+  analogWrite(motorPin_1, 200);
+  analogWrite(motorPin_2, 200);
+  analogWrite(motorPin_3, 200);
+  analogWrite(motorPin_4, 200);
+
+  Serial.println("Calibration MAX");
+  delay(10000);
+
+  analogWrite(motorPin_1, 50);
+  analogWrite(motorPin_2, 50);
+  analogWrite(motorPin_3, 50);
+  analogWrite(motorPin_4, 50);
+
+  Serial.println("Calibration MIN");
+  delay(10000);
+  Serial.println("Calibration complete");
 }
 
 void loop() {
@@ -55,20 +83,28 @@ void loop() {
     iBus.SwA = (ibus_rx_data[10] | ibus_rx_data[11]<<8) & 0x0fff;
     iBus.SwC = (ibus_rx_data[12] | ibus_rx_data[13]<<8) & 0x0fff;
 
-    Serial.print(iBus.RH, DEC);
-    Serial.print('\t');
-    Serial.print(iBus.RV, DEC);
-    Serial.print('\t');
+    //Serial.print(iBus.RH, DEC);
+    //Serial.print('\t');
+    //Serial.print(iBus.RV, DEC);
+    //Serial.print('\t');
     Serial.print(iBus.LV, DEC);
     Serial.print('\t');
-    Serial.print(iBus.LH, DEC);
+    //Serial.print(iBus.LH, DEC);
+    //Serial.print('\t');
+    //Serial.print(iBus.SwA, DEC);
+    //Serial.print('\t');
+    //Serial.print(iBus.SwC, DEC);
+    Serial.print((iBus.LV-1000) / 4, DEC);
     Serial.print('\t');
-    Serial.print(iBus.SwA, DEC);
-    Serial.print('\t');
-    Serial.println(iBus.SwC, DEC);
+    Serial.println();
 
     ibus_rx_cplt_flag = false;
   }
+
+  analogWrite(motorPin_1, (iBus.LV-1000) / 4);
+  analogWrite(motorPin_2, (iBus.LV-1000) / 4);
+  analogWrite(motorPin_3, (iBus.LV-1000) / 4);
+  analogWrite(motorPin_4, (iBus.LV-1000) / 4);
 }
 
 /*
