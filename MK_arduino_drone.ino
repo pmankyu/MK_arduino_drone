@@ -1,4 +1,4 @@
-#include <Servo.h> 
+#include "motor.h"
 
 Servo motorPin_1;
 Servo motorPin_2;
@@ -43,23 +43,23 @@ void setup() {
   motorPin_3.attach(6);
   motorPin_4.attach(9);
 
-  //delay(3000);
+  delay(3000);
 
-  //motorPin_1.writeMicroseconds(2000);
-  //motorPin_2.writeMicroseconds(2000);
-  //motorPin_3.writeMicroseconds(2000);
-  //motorPin_4.writeMicroseconds(2000);
+  motorPin_1.writeMicroseconds(2000);
+  motorPin_2.writeMicroseconds(2000);
+  motorPin_3.writeMicroseconds(2000);
+  motorPin_4.writeMicroseconds(2000);
 
   Serial.println("Calibration MAX");
-  //delay(10000);
+  delay(10000);
 
-  //motorPin_1.writeMicroseconds(1000);
-  //motorPin_2.writeMicroseconds(1000);
-  //motorPin_3.writeMicroseconds(1000);
-  //motorPin_4.writeMicroseconds(1000);
+  motorPin_1.writeMicroseconds(1000);
+  motorPin_2.writeMicroseconds(1000);
+  motorPin_3.writeMicroseconds(1000);
+  motorPin_4.writeMicroseconds(1000);
 
   Serial.println("Calibration MIN");
-  //delay(10000);
+  delay(10000);
   Serial.println("Calibration complete");
 }
 
