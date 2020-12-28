@@ -1,3 +1,10 @@
+#include <Servo.h> 
+
+Servo motorPin_1;
+Servo motorPin_2;
+Servo motorPin_3;
+Servo motorPin_4;
+
 String inputString = "";         // a String to hold incoming data
 bool stringComplete = false;  // whether the string is complete
 
@@ -5,11 +12,6 @@ byte ibus_rx_buf[32] = {};
 byte ibus_rx_data[32] = {};
 int cnt = 0;
 bool ibus_rx_cplt_flag = false;
-
-int motorPin_1 = 3;
-int motorPin_2 = 5;
-int motorPin_3 = 6;
-int motorPin_4 = 9;
 
 typedef struct _FSiA6B_iBus
 {
@@ -35,28 +37,29 @@ void setup() {
   // reserve 200 bytes for the inputString:
   inputString.reserve(200);
   Serial.println("Start program");
-  pinMode(motorPin_1, OUTPUT);
-  pinMode(motorPin_2, OUTPUT);
-  pinMode(motorPin_3, OUTPUT);
-  pinMode(motorPin_4, OUTPUT);
 
-  delay(3000);
+  motorPin_1.attach(3);
+  motorPin_2.attach(5);
+  motorPin_3.attach(6);
+  motorPin_4.attach(9);
 
-  analogWrite(motorPin_1, 200);
-  analogWrite(motorPin_2, 200);
-  analogWrite(motorPin_3, 200);
-  analogWrite(motorPin_4, 200);
+  //delay(3000);
+
+  //motorPin_1.writeMicroseconds(2000);
+  //motorPin_2.writeMicroseconds(2000);
+  //motorPin_3.writeMicroseconds(2000);
+  //motorPin_4.writeMicroseconds(2000);
 
   Serial.println("Calibration MAX");
-  delay(10000);
+  //delay(10000);
 
-  analogWrite(motorPin_1, 50);
-  analogWrite(motorPin_2, 50);
-  analogWrite(motorPin_3, 50);
-  analogWrite(motorPin_4, 50);
+  //motorPin_1.writeMicroseconds(1000);
+  //motorPin_2.writeMicroseconds(1000);
+  //motorPin_3.writeMicroseconds(1000);
+  //motorPin_4.writeMicroseconds(1000);
 
   Serial.println("Calibration MIN");
-  delay(10000);
+  //delay(10000);
   Serial.println("Calibration complete");
 }
 
@@ -101,10 +104,10 @@ void loop() {
     ibus_rx_cplt_flag = false;
   }
 
-  analogWrite(motorPin_1, (iBus.LV-1000) / 4);
-  analogWrite(motorPin_2, (iBus.LV-1000) / 4);
-  analogWrite(motorPin_3, (iBus.LV-1000) / 4);
-  analogWrite(motorPin_4, (iBus.LV-1000) / 4);
+  motorPin_1.writeMicroseconds(iBus.LV);
+  motorPin_2.writeMicroseconds(iBus.LV);
+  motorPin_3.writeMicroseconds(iBus.LV);
+  motorPin_4.writeMicroseconds(iBus.LV);
 }
 
 /*
